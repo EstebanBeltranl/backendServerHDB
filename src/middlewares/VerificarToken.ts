@@ -2,8 +2,6 @@ import jwt , { VerifyErrors } from "jsonwebtoken";
 import { Response, NextFunction, Request } from "express";
 import config from '../config/config';
 
-
-
 export const AutenticarJWT = (req: any, res: Response, next: NextFunction) => {
     let jwtoken = req.header('Authorization');
     jwtoken = jwtoken?.split(' ')[1];

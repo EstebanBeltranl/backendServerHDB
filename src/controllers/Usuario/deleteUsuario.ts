@@ -25,6 +25,7 @@ export const deleteUsuario = async (req: Request, res: Response) => {
     
             res.status(200).json({
                 ok: true,
+                mensaje: 'Usuario borrado correctamente',
                 usuario: usuarioBorrado
             });
         }

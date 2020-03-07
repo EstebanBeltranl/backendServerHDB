@@ -49,13 +49,13 @@ UsuarioSchema.methods.comparePassword = function (password: string): boolean {
 UsuarioSchema.methods.generarJWT = function () {
     return jwt.sign( 
         {   
-            id: this.id,
+            id: this._id,
             email: this.email,
             role: this.role,
             img: this.img 
         }, 
         config.jwtSecret, 
-        {expiresIn: '30s'} 
+        {expiresIn: '10h'} 
     );
 }
 

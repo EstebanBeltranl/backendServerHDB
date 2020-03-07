@@ -3,6 +3,8 @@ import morgan from "morgan";
 import cors from "cors";
 
 import UsuarioRoute from './routes/UsuarioRoute';
+import HospitalRoute from './routes/HospitalRoute';
+import MedicoRoute from './routes/MedicoRoute';
 import Login from './routes/Login';
 
 const app = express();
@@ -18,8 +20,10 @@ app.use(express.json());
 
 
 // Routes
-app.use('/usuario', UsuarioRoute)
 app.use('/login', Login)
+app.use('/usuario', UsuarioRoute)
+app.use('/hospital', HospitalRoute)
+app.use('/medico', MedicoRoute )
 
 
 export default app;
