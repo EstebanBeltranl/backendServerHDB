@@ -5,6 +5,7 @@ import cors from "cors";
 import UsuarioRoute from './routes/UsuarioRoute';
 import HospitalRoute from './routes/HospitalRoute';
 import MedicoRoute from './routes/MedicoRoute';
+import Busqueda from './routes/Busqueda';
 import Login from './routes/Login';
 
 const app = express();
@@ -24,6 +25,7 @@ app.use('/login', Login)
 app.use('/usuario', UsuarioRoute)
 app.use('/hospital', HospitalRoute)
 app.use('/medico', MedicoRoute )
+app.use('/busqueda', Busqueda)
 
 
 export default app;

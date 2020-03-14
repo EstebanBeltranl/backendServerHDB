@@ -11,8 +11,10 @@ interface IUser extends Document {
     password: string;
     img: string;
     role: string;
+    google: boolean;
     generarJWT: () => string;
     comparePassword: (password: string) => boolean;
+
 }
 
 const rolesValidos = {
@@ -25,7 +27,8 @@ const UsuarioSchema = new Schema({
     email: { type: String, unique: true, required: [true, 'El correo es necesario'], lowercase: true },
     password: { type: String, required: [true, 'La contraseña es necesaria'] },
     img: { type: String, required: false },
-    role: { type: String, required: true, default: 'USER_ROLE', enum: rolesValidos }
+    role: { type: String, required: true, default: 'USER_ROLE', enum: rolesValidos },
+    google: { type: Boolean, default: false }
 })
 
 UsuarioSchema.plugin( uniqueValidator, { message: '{PATH} debe ser único' } )

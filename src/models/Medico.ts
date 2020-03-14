@@ -1,6 +1,6 @@
 import { model, Schema, Document } from 'mongoose';
 
-interface IMedico extends Document {
+export interface IMedico extends Document {
     nombre: string;
     img: string;
     usuario: any;

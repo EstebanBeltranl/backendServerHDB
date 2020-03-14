@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import { getMedicos , crearMedico } from '../controllers/Medico';
 import { AutenticarJWT } from '../middlewares/VerificarToken';
+import { getUltimoRegistro } from '../middlewares/pagination';
 const router: Router = Router();
 
-router.get('/' , getMedicos );
+router.get('/', getUltimoRegistro , getMedicos );
 router.post('/', AutenticarJWT , crearMedico);
 
 

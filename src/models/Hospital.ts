@@ -1,6 +1,6 @@
 import { model, Schema, Document } from 'mongoose';
 
-interface IHosptital extends Document {
+export interface IHosptital extends Document {
     nombre: string;
     img: string;
     usuario: any;

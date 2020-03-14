@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Usuario from '../../models/Usuario';
+import {  } from "mongoose";
 
 export const updateUsuario = async (req: Request, res: Response) => {
     const { _id } = req.params;
