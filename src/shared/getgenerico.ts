@@ -1,7 +1,6 @@
 import { Response } from 'express';
-import { Model } from 'mongoose';
-import Hospital ,{ IHosptital } from '../models/Hospital';
-import Medico, { IMedico } from '../models/Medico';
+import Hospital  from '../models/Hospital';
+import Medico from '../models/Medico';
 
 type Modelos = 'Hospital' | 'Medico';
 

@@ -30,15 +30,15 @@ router.post('/google', async (req, res) => {
     const { token } = req.body;
     const googleUser = await verify(token)
         .catch( e => {
-            res.status(200).json({
+            res.status(401).json({
                 ok: false,
-                mensaje: 'TOKEN DE GOOGLE NO VALIDO!!!!',
-                error: e
+                mensaje: 'Token de google no valido',
+                
             })
     });
     
     if(googleUser) {
-        Usuario.findOne({ email: googleUser.email }, async (err, usuarioDB) => {
+        Usuario.findOne({ email: googleUser.email }, { 'password': 0, '__v': 0 } , async (err, usuario) => {
             if(err) return res.status(500).json({
                 ok: true,
                 mensaje: 'Error al buscar usuario!!!!',
@@ -46,21 +46,20 @@ router.post('/google', async (req, res) => {
 
             // Si el usuario existe, ver si se creo por registro normal
             // o se registro con google sign
-            if(usuarioDB) {
-                if( !usuarioDB.google ) {
+            if(usuario) {
+                if( !usuario.google ) {
                     res.status(400).json({
                         ok: false,
                         mensaje: 'Debe usar su autenticacion normal',
                     })
                 } else {
-                    const JSONWEBTOKEN = usuarioDB.generarJWT()
+                    const JSONWEBTOKEN = usuario.generarJWT()
                     res.status(200)
-                        .header( 'Authorization', JSONWEBTOKEN)
+                        .header('Authorization', JSONWEBTOKEN)
                         .json({
                             ok: true,
-                            usuarioDB,
-                            token: JSONWEBTOKEN,
-                            id: usuarioDB._id
+                            usuario,
+                            id: usuario._id
                         })
                 }
             } else {
@@ -75,17 +74,16 @@ router.post('/google', async (req, res) => {
                         google: true
                     })
 
-                    await newUser.save( (err, usuarioDB) => {
+                    await newUser.save( (err, usuario) => {
                         if(err) return res.status(500).json( { ok: false, errores: err })
 
-                        const JSONWEBTOKEN = usuarioDB.generarJWT()
+                        const JSONWEBTOKEN = usuario.generarJWT()
                         res.status(200)
                             .header( 'Authorization', JSONWEBTOKEN)
                             .json({
                                 ok: true,
-                                usuarioDB,
-                                token: JSONWEBTOKEN,
-                                id: usuarioDB._id
+                                usuario,
+                                id: usuario._id
                             })
                     })
                 }
@@ -112,19 +110,19 @@ router.post('/', async (req: Request, res: Response) => {
                 });
             }
             if( !usuario ){
-                return res.status(400).send('Usuario no existe!')
+                return res.status(400).json({ mensaje: 'Usuario no existe!'})
             }
 
             const mismoPassword = usuario.comparePassword(password);
             if( !mismoPassword ) {
-                return res.status(400).send( 'Correo y/o password son incorrectos' )
+                return res.status(400).json({ mensaje: 'Correo y/o password son incorrectos'})
             }
 
             const JSONWEBTOKEN = usuario.generarJWT()
-
+         
             res.status(200)
-                    .header( 'Authorization', JSONWEBTOKEN)
-                    .send({ usuario: {email: usuario.email, _id: usuario.id, token: JSONWEBTOKEN} })
+                    .header( 'Authorization', JSONWEBTOKEN )
+                    .send({ ok: true, usuario: {email: usuario.email, _id: usuario.id}, id: usuario._id })
         }
     )
 });

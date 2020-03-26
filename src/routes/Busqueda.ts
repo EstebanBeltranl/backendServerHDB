@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { allBusqueda, buscarHospitales, buscarMedicos } from '../controllers/Allbusqueda';
+import { allBusqueda, buscarHospitales, buscarMedicos, buscarUsuarioPorEmail } from '../controllers/Allbusqueda';
 import Hospital from '../models/Hospital';
 
 const router: Router = Router();
@@ -10,6 +10,7 @@ router.get('/todo/:busqueda', allBusqueda)
 // Busqueda por coleccion
 router.get('/coleccion/:tabla/:busqueda', (req, res) => {
     const { busqueda , tabla} = req.params;
+    console.log('BUSQYUERDA', busqueda)
     let promesa;
     switch (tabla) {
         case 'hospital':
@@ -17,6 +18,9 @@ router.get('/coleccion/:tabla/:busqueda', (req, res) => {
             break;
         case 'medico': 
             promesa = buscarMedicos(busqueda)
+            break;
+        case 'usuario': 
+            promesa = buscarUsuarioPorEmail(busqueda)
             break;
         default:
             return res.status(400).json({ ok: false, mensaje: "Tipo de coleccion no valido, solo se acepta: 'hospital', 'medico'" })     

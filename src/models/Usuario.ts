@@ -5,7 +5,7 @@ import { genSaltSync, hashSync, compareSync } from 'bcrypt';
 import uniqueValidator from 'mongoose-unique-validator';
 
 
-interface IUser extends Document {
+export interface IUser extends Document {
     nombre: string;
     email: string;
     password: string;
